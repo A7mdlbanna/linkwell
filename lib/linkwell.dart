@@ -97,6 +97,9 @@ class LinkWell extends StatelessWidget {
   /// by default can also be null
   final TextDirection? textDirection;
 
+  /// if set to `true` This allows the user to select the text
+  final bool selectable;
+
   /// This hold user defined Widget key
   /// by default can also be null
   final Key? key;
@@ -117,13 +120,8 @@ class LinkWell extends StatelessWidget {
     this.strutStyle,
     this.listOfNames,
     this.textWidthBasis = TextWidthBasis.parent,
-  })  : assert(text != null),
-        assert(textAlign != null),
-        assert(softWrap != null),
-        assert(overflow != null),
-        assert(textScaleFactor != null),
-        assert(maxLines == null || maxLines > 0),
-        assert(textWidthBasis != null) {
+    this.selectable = false,
+  })  : assert(maxLines == null || maxLines > 0) {
     /// At construction _initialize function is called
     _initialize();
   }
@@ -269,7 +267,15 @@ class LinkWell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RichText(
+      child: selectable ? SelectableText.rich(
+        TextSpan(children: textSpanWidget),
+        textAlign: textAlign,
+        maxLines: maxLines,
+        strutStyle: strutStyle,
+        textScaleFactor: textScaleFactor,
+        textWidthBasis: textWidthBasis,
+        textDirection: textDirection,
+      ) : RichText(
         textAlign: textAlign,
         locale: locale,
         maxLines: maxLines,
